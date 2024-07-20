@@ -1,0 +1,149 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "40190118",
+      "name": "066_地图定位",
+      "font_class": "a-066_ditudingwei",
+      "unicode": "e753",
+      "unicode_decimal": 59219
+    },
+    {
+      "icon_id": "40190119",
+      "name": "066_点赞",
+      "font_class": "a-066_dianzan",
+      "unicode": "e754",
+      "unicode_decimal": 59220
+    },
+    {
+      "icon_id": "40190121",
+      "name": "066_保存",
+      "font_class": "a-066_baocun",
+      "unicode": "e755",
+      "unicode_decimal": 59221
+    },
+    {
+      "icon_id": "40190124",
+      "name": "066_订单-04",
+      "font_class": "a-066_dingdan-04",
+      "unicode": "e756",
+      "unicode_decimal": 59222
+    },
+    {
+      "icon_id": "40190125",
+      "name": "066_分享-68",
+      "font_class": "a-066_fenxiang-68",
+      "unicode": "e757",
+      "unicode_decimal": 59223
+    },
+    {
+      "icon_id": "40190126",
+      "name": "066_分享-46",
+      "font_class": "a-066_fenxiang-46",
+      "unicode": "e758",
+      "unicode_decimal": 59224
+    },
+    {
+      "icon_id": "40190127",
+      "name": "066_发现",
+      "font_class": "a-066_faxian",
+      "unicode": "e759",
+      "unicode_decimal": 59225
+    },
+    {
+      "icon_id": "40190128",
+      "name": "066_购物-45",
+      "font_class": "a-066_gouwu-45",
+      "unicode": "e75a",
+      "unicode_decimal": 59226
+    },
+    {
+      "icon_id": "40190131",
+      "name": "066_更多",
+      "font_class": "a-066_gengduo",
+      "unicode": "e75b",
+      "unicode_decimal": 59227
+    },
+    {
+      "icon_id": "40190132",
+      "name": "066_购物车",
+      "font_class": "a-066_gouwuche",
+      "unicode": "e75c",
+      "unicode_decimal": 59228
+    },
+    {
+      "icon_id": "40190142",
+      "name": "066_秒杀",
+      "font_class": "a-066_miaosha",
+      "unicode": "e75d",
+      "unicode_decimal": 59229
+    },
+    {
+      "icon_id": "40190146",
+      "name": "066_拍摄",
+      "font_class": "a-066_paishe",
+      "unicode": "e75e",
+      "unicode_decimal": 59230
+    },
+    {
+      "icon_id": "40190147",
+      "name": "066_全部",
+      "font_class": "a-066_quanbu",
+      "unicode": "e75f",
+      "unicode_decimal": 59231
+    },
+    {
+      "icon_id": "40190152",
+      "name": "066_扫一扫",
+      "font_class": "a-066_saoyisao",
+      "unicode": "e760",
+      "unicode_decimal": 59232
+    },
+    {
+      "icon_id": "40455118",
+      "name": "向下箭头",
+      "font_class": "xiangxiajiantou",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "40455120",
+      "name": "向左箭头",
+      "font_class": "xiangzuojiantou",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "40455121",
+      "name": "向上箭头",
+      "font_class": "xiangshangjiantou",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "40455123",
+      "name": "搜索@2x",
+      "font_class": "a-sousuo2x",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "40455127",
+      "name": "向右箭头",
+      "font_class": "xiangyoujiantou",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "40455131",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    }
+  ]
+}

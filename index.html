@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腾讯天气</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <!-- <link rel="stylesheet" href="./icon/font_ou4lhxb8nyd/iconfont.css"> -->
+    <link rel="stylesheet" href="./icon/font_othbho6hiz/iconfont.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="w">
+            <div class="logo">
+                <img src="./imgs/0.webp" alt="">
+            </div>
+            <div class="nav">
+                <div>
+                    <a href="#">腾讯网首页</a>
+                </div>
+                <div>
+                    <a href="#">无障碍浏览</a>
+                </div>
+                <div class="position">
+                    <p>&nbsp;陕西省&nbsp;西安市</p>
+                </div>
+                <div class="subscript">
+                    [添加关注]
+                </div>
+                <div class="search">
+                    <input type="search" placeholder="搜索市，区，县等">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w">
+
+        <!-- //当地天气模块 -->
+        <div class="current_weather">
+            <p>中央气象台08:50发布</p>
+            <div class="temperature">26°</div>
+            <div class="weather">多云</div>
+            <div class="airQuality">&nbsp;27&nbsp;优</div>
+            <div class="items">
+                <div class="wind">东风&nbsp;3-4级</div>
+                <div class="humidity">湿度&nbsp;100%</div>
+                <div class="airPressure">气压&nbsp;956hPa</div>
+                <div class="trafficInformation">不限行</div>
+            </div>
+            <ul class="advice">
+                <li>现在的温度比较舒适~</li>
+            </ul>
+            <img src="./imgs/cloudy_day.png" alt="" class="weather_img">
+        </div>
+
+        <!-- //逐小时预报 -->
+        <div class="hour_weather">
+            <div class="title">
+                <span>逐小时预报</span>
+                <a href="#">数据来源于中国天气网</a>
+                <div class="button">
+                    <button>
+                        << /button>
+                            <button>></button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="w">
+            <!-- 7日天气预报 -->
+            <div class="weather_forecast">
+                <div class="title">
+                    <span>7日天气预报</span>
+                    <a href="#">15日天气预报</a>
+                </div>
+            </div>
+
+            <!-- 生活指数 -->
+            <div class="advice_module">
+                <div class="title">
+                    <span>生活指数</span>
+                    <div class="button">
+                        <button>
+                            << /button>
+                                <button>></button>
+                    </div>
+                </div>
+
+                <ul class="advice_items">
+                    <li>
+                        <span class="icon iconfont" data-num="1">&#xe8c7;</span>
+                        <p>穿衣&nbsp;热</p>
+                    </li>
+                    <li>
+                        <span class="icon iconfont" data-num="2">&#xf53a;</span>
+                        <p>雨伞&nbsp;带伞</p>
+                    </li>
+                    <li><span class="icon iconfont" data-num="3">&#xe65a;</span>
+                        <p>感冒&nbsp;少发</p>
+                    </li>
+                    <li><span class="icon iconfont" data-num="4">&#xe658;</span>
+                        <p>洗车&nbsp;不宜</p>
+                    </li>
+                    <li><span class="icon iconfont" data-num="5">&#xe6c9;</span>
+                        <p>运动&nbsp;较不宜</p>
+                    </li>
+                    <li><span class="icon iconfont" data-num="6">&#xe69f;</span>
+                        <p>防晒&nbsp;弱</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

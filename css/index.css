@@ -1,0 +1,339 @@
+@font-face {
+    font-family: "iconfont";
+    /* Project id  */
+    src: url('iconfont.ttf?t=1721465392863') format('truetype');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: #f6f9fe;
+    background-image: url(../imgs/微信图片_20240720140551.jpg);
+    background-repeat: no-repeat;
+    background-position-x: center;
+}
+
+.w {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    height: 66px;
+    padding-top: 10px;
+    border-bottom: 1px solid #8aa4f7;
+}
+
+.logo {
+    float: left;
+    width: 176px;
+    height: 43px;
+}
+
+.logo img {
+    width: 176px;
+    height: 43px;
+}
+
+.nav {
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+    height: 43px;
+    /* background-color: pink; */
+    font-size: 15px;
+    color: #ffffff;
+    line-height: 43px;
+}
+
+.nav div {
+    padding-left: 20px;
+}
+
+.position p {
+    font-size: 20px;
+}
+
+.position p::before {
+    font-family: "iconfont";
+    content: "\e753";
+}
+
+.subscript {
+    opacity: 0.8;
+}
+
+.search input {
+    padding-left: 20px;
+    height: 30px;
+    width: 300px;
+    border-radius: 15px;
+    color: #dae2fd;
+    background-color: #8498f7;
+}
+
+.current_weather {
+    position: relative;
+    padding-top: 35px;
+    font-size: 15px;
+    color: white
+}
+
+.current_weather p {
+    opacity: 0.5;
+    height: 15px;
+}
+
+.temperature {
+    display: inline-block;
+    font-size: 90px;
+}
+
+.weather {
+    display: inline-block;
+    font-size: 30px;
+}
+
+.airQuality {
+    display: inline-block;
+    width: 70px;
+    height: 24px;
+    margin-left: 20px;
+    text-align: center;
+    border-radius: 12px;
+    background-color: #a3d765;
+}
+
+.airQuality::before {
+    font-family: "iconfont";
+    content: "\e91b";
+}
+
+.items div {
+    display: inline-block;
+    font-size: 18px;
+    margin-right: 40px;
+    margin-bottom: 15px;
+}
+
+.advice li {
+    /* list-style: disc; */
+    /* vertical-align: middle; */
+    font-size: 20px;
+}
+
+.advice li::before {
+    vertical-align: middle;
+    content: "•";
+    font-size: 40px;
+    display: inline-block;
+    margin-right: 10px;
+    transform: translate(0, -4px);
+}
+
+.weather_img {
+    position: absolute;
+    top: 125px;
+    right: 95px;
+    width: 130px;
+    height: 130px;
+}
+
+.hour_weather {
+    margin-top: 190px;
+    padding-top: 10px;
+    height: 200px;
+    background-color: #fff;
+    box-shadow: 0 0 10px 1px rgba(223, 210, 210, 0.3);
+    border-radius: 10px;
+}
+
+.hour_weather .title span {
+    font-size: 18px;
+}
+
+.hour_weather .title span::before {
+    margin-left: 30px;
+    vertical-align: middle;
+    content: "•";
+    font-size: 30px;
+    display: inline-block;
+    margin-right: 10px;
+    transform: translate(0, -4px);
+}
+
+.hour_weather .title a {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #8a9baf;
+}
+
+.hour_weather .button {
+    float: right;
+    margin-right: 30px;
+    width: 67px;
+    height: 27px;
+    /* background-color: #a3d765; */
+}
+
+.hour_weather .button button {
+    margin-left: 6px;
+    margin-top: 7px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: #9eaab8;
+    /* opacity: 0; */
+    background-color: #fff;
+    border: 2px solid #94a2b3;
+}
+
+.weather_forecast {
+    float: left;
+    margin-top: 40px;
+    padding-top: 10px;
+    width: 833px;
+    height: 576px;
+    background-color: #fff;
+    box-shadow: 0 0 10px 1px rgba(223, 210, 210, 0.3);
+    border-radius: 10px;
+}
+
+.weather_forecast .title span {
+    font-size: 18px;
+}
+
+.weather_forecast .title span::before {
+    margin-left: 30px;
+    vertical-align: middle;
+    content: "•";
+    font-size: 30px;
+    display: inline-block;
+    margin-right: 10px;
+    transform: translate(0, -4px);
+}
+
+.weather_forecast .title a {
+    float: right;
+    padding-top: 3px;
+    height: 26px;
+    width: 100px;
+    vertical-align: middle;
+    text-align: center;
+    margin-top: 7px;
+    margin-right: 30px;
+    color: #384c78;
+    font-size: 12px;
+    background-color: #f8faff;
+    border: 1px solid #dce5f0;
+    border-radius: 13px;
+}
+
+.advice_module {
+    /* display: flex; */
+    float: right;
+    margin-top: 40px;
+    padding-top: 10px;
+    width: 340px;
+    height: 576px;
+    /* background-color: #fff;
+    box-shadow: 0 0 10px 1px rgba(223, 210, 210, 0.3);
+    border-radius: 10px; */
+}
+
+.advice_module .title span {
+    font-size: 18px;
+}
+
+.advice_module .title span::before {
+    /* margin-left: 30px; */
+    vertical-align: middle;
+    content: "•";
+    font-size: 30px;
+    display: inline-block;
+    margin-right: 10px;
+    transform: translate(0, -4px);
+}
+
+.advice_module .title a {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #8a9baf;
+}
+
+.advice_module .button {
+    float: right;
+    width: 67px;
+    height: 27px;
+    /* background-color: #a3d765; */
+}
+
+.advice_module .button button {
+    margin-left: 6px;
+    margin-top: 7px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: #9eaab8;
+    /* opacity: 0; */
+    background-color: #fff;
+    border: 2px solid #94a2b3;
+}
+
+.advice_items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 340px;
+    height: 520px;
+    /* background-color: pink; */
+}
+
+.advice_items li {
+    width: 160px;
+    height: 140px;
+    background-color: #fff;
+    box-shadow: 0 0 10px 1px rgba(223, 210, 210, 0.3);
+    border-radius: 10px;
+    font-size: 20px;
+    padding-top: 30px;
+    text-align: center;
+    
+}
+
+[data-num="1"] {
+    color: pink;
+    font-size: 30px!important;
+}
+
+[data-num="2"] {
+    color: purple;
+    font-size: 30px !important;
+}
+
+[data-num="3"] {
+    color: green;
+    font-size: 30px !important;
+}
+
+[data-num="4"] {
+    color: #bde9b1;
+    font-size: 30px !important;
+}
+
+[data-num="5"] {
+    color: #eadfac;
+    font-size: 30px !important;
+}
+
+[data-num="6"] {
+    color: #ddb1a5;
+    font-size: 30px !important;
+}
