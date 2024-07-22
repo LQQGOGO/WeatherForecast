@@ -46,7 +46,29 @@
             <p>中央气象台08:50发布</p>
             <div class="temperature">26°</div>
             <div class="weather">多云</div>
-            <div class="airQuality">&nbsp;27&nbsp;优</div>
+            <div class="airQuality">
+                &nbsp;27&nbsp;优
+                <div class="airContainer hide">
+                    <div class="triangle"></div>
+                    <p>空气质量指数&nbsp;27&nbsp;优</p>
+                    <ul class="airCondition">
+                        <li>
+                            <p>15</p>
+                            <p class="airKinds">PM2.5</p>
+                        </li>
+                        <li><p>15</p>
+                            <p class="airKinds">PM10</p></li>
+                        <li><p>15</p>
+                            <p class="airKinds">SO2</p></li>
+                        <li><p>15</p>
+                            <p class="airKinds">NO2</p></li>
+                        <li><p>15</p>
+                            <p class="airKinds">O3</p></li>
+                        <li><p>15</p>
+                            <p class="airKinds">CO</p></li>
+                    </ul>
+                </div>
+            </div>
             <div class="items">
                 <div class="wind">东风&nbsp;3-4级</div>
                 <div class="humidity">湿度&nbsp;100%</div>
@@ -56,7 +78,7 @@
             <ul class="advice">
                 <li>现在的温度比较舒适~</li>
             </ul>
-            <img src="./imgs/cloudy_day.png" alt="" class="weather_img">
+            <img src="./node_modules/qweather-icons/icons/101.svg" alt="" class="weather_img">
         </div>
 
         <!-- //逐小时预报 -->
@@ -65,11 +87,172 @@
                 <span>逐小时预报</span>
                 <a href="#">数据来源于中国天气网</a>
                 <div class="button">
-                    <button class="icon iconfont">
-                        &#xe61b;</button>
-                    <button class="icon iconfont">&#xe61d;</button>
+                    <button class="icon iconfont swiper1-prev">&#xe61b;</button>
+                    <button class="icon iconfont swiper1-next">&#xe61d;</button>
                 </div>
             </div>
+            <!-- 小时预报的swiper的框架  -->
+            <div class="hour_container">
+                <div class="swiper mySwiper" id="swiper1">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <ul>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="swiper-slide">
+                            <ul>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">明天</p>
+                                    <img src="./imgs/cloudy_day.png" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">28°</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next swiper1-button-next"></div>
+                    <div class="swiper-button-prev swiper1-button-prev"></div>
+                </div>
+            </div>
+
 
         </div>
 
@@ -79,8 +262,135 @@
             <div class="weather_forecast">
                 <div class="title">
                     <span>7日天气预报</span>
-                    <a href="#">15日天气预报</a>
+                    <a href="http://www.weather.com.cn/weather15d/101110101.shtml">15日天气预报</a>
                 </div>
+
+                <!-- 7日天气预报内容 -->
+                <div class="forecast_container">
+                    <ul>
+                        <li class="firstDay">
+                            <p class="day">昨天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>多云</p>
+                                <img src="./imgs/cloudy_day.png" alt="">
+                                <p class="day-temperature">36°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">36°</p>
+                                <img src="./imgs/cloudy_night.png" alt="">
+                                <p>多云</p>
+                            </div>
+                            <p class="wind">微风1-3级</p>
+                        </li>
+                        <li class="secondDay">
+                            <p class="day">今天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>多云</p>
+                                <img src="./imgs/cloudy_day.png" alt="">
+                                <p class="day-temperature">36°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">36°</p>
+                                <img src="./imgs/cloudy_night.png" alt="">
+                                <p>多云</p>
+                            </div>
+                            <p class="wind">微风1-3级</p>
+                        </li>
+                        <li>
+                            <p class="day">昨天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>多云</p>
+                                <img src="./imgs/cloudy_day.png" alt="">
+                                <p class="day-temperature">36°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">36°</p>
+                                <img src="./imgs/cloudy_night.png" alt="">
+                                <p>多云</p>
+                            </div>
+                            <p class="wind">微风1-3级</p>
+                        </li>
+                        <li>
+                            <p class="day">昨天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>多云</p>
+                                <img src="./imgs/cloudy_day.png" alt="">
+                                <p class="day-temperature">36°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">36°</p>
+                                <img src="./imgs/cloudy_night.png" alt="">
+                                <p>多云</p>
+                            </div>
+                            <p class="wind">微风1-3级</p>
+                        </li>
+                        <li>
+                            <p class="day">昨天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>多云</p>
+                                <img src="./imgs/cloudy_day.png" alt="">
+                                <p class="day-temperature">36°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">36°</p>
+                                <img src="./imgs/cloudy_night.png" alt="">
+                                <p>多云</p>
+                            </div>
+                            <p class="wind">微风1-3级</p>
+                        </li>
+                        <li>
+                            <p class="day">昨天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>多云</p>
+                                <img src="./imgs/cloudy_day.png" alt="">
+                                <p class="day-temperature">36°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">36°</p>
+                                <img src="./imgs/cloudy_night.png" alt="">
+                                <p>多云</p>
+                            </div>
+                            <p class="wind">微风1-3级</p>
+                        </li>
+                        <li>
+                            <p class="day">昨天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>多云</p>
+                                <img src="./imgs/cloudy_day.png" alt="">
+                                <p class="day-temperature">36°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">36°</p>
+                                <img src="./imgs/cloudy_night.png" alt="">
+                                <p>多云</p>
+                            </div>
+                            <p class="wind">微风1-3级</p>
+                        </li>
+                        <li>
+                            <p class="day">昨天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>多云</p>
+                                <img src="./imgs/cloudy_day.png" alt="">
+                                <p class="day-temperature">36°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">36°</p>
+                                <img src="./imgs/cloudy_night.png" alt="">
+                                <p>多云</p>
+                            </div>
+                            <p class="wind">微风1-3级</p>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
 
             <!-- 生活指数 -->
@@ -88,13 +398,139 @@
                 <div class="title">
                     <span>生活指数</span>
                     <div class="button">
-                        <button class="icon iconfont">
+                        <button class="icon iconfont swiper2-prev">
                             &#xe61b;</button>
-                        <button class="icon iconfont">&#xe61d;</button>
+                        <button class="icon iconfont swiper2-next">&#xe61d;</button>
                     </div>
                 </div>
 
-                <ul class="advice_items">
+
+                <!-- 生活建议模块swiper插件 -->
+                <div class="advice_container">
+                    <div class="swiper mySwiper" id="swiper2">
+                        <div class="swiper-wrapper daily-swiper-wrapper">
+                            <div class="swiper-slide">
+                                <ul class="advice_items">
+                                    <li>
+                                        <div class="advice_item">
+                                            <span class="icon iconfont" data-num="1">&#xe8c7;</span>
+                                            <p>穿衣&nbsp;热</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item">
+                                            <span class="icon iconfont" data-num="2">&#xf53a;</span>
+                                            <p>雨伞&nbsp;带伞</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item">
+                                            <span class="icon iconfont" data-num="3">&#xe65a;</span>
+                                            <p>感冒&nbsp;少发</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item">
+                                            <span class="icon iconfont" data-num="4">&#xe658;</span>
+                                            <p>洗车&nbsp;不宜</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item">
+                                            <span class="icon iconfont" data-num="5">&#xe6c9;</span>
+                                            <p>运动&nbsp;较不宜</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item">
+                                            <span class="icon iconfont" data-num="6">&#xe69f;</span>
+                                            <p>防晒&nbsp;弱</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="swiper-slide">
+                                <ul class="advice_items">
+                                    <li>
+                                        <div class="advice_item">
+                                            <span class="icon iconfont" data-num="7">&#xe975;</span>
+                                            <p>钓鱼&nbsp;不宜</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item">
+                                            <span class="icon iconfont" data-num="8">&#xe6b9;</span>
+                                            <p>旅游&nbsp;一般</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item"><span class="icon iconfont"
+                                                data-num="9">&#xe918;</span>
+                                            <p>交通&nbsp;良好</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item"><span class="icon iconfont"
+                                                data-num="10">&#xe6ac;</span>
+                                            <p>空气污染扩散条件&nbsp;较差</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item"><span class="icon iconfont"
+                                                data-num="11">&#xe688;</span>
+                                            <p>舒适度&nbsp;较不舒适</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="advice_item"><span class="icon iconfont"
+                                                data-num="12">&#xe6be;</span>
+                                            <p>晾晒&nbsp;不太适宜</p>
+                                            <div class="advice-detail">
+                                                天气炎热，建议着短衫、短裙、短裤、薄型T恤衫等清凉夏季服装。
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="swiper-button-next swiper2-button-next"></div>
+                        <div class="swiper-button-prev swiper2-button-prev"></div>
+                    </div>
+                </div>
+                <!-- <ul class="advice_items">
                     <li>
                         <span class="icon iconfont" data-num="1">&#xe8c7;</span>
                         <p>穿衣&nbsp;热</p>
@@ -115,7 +551,7 @@
                     <li><span class="icon iconfont" data-num="6">&#xe69f;</span>
                         <p>防晒&nbsp;弱</p>
                     </li>
-                </ul>
+                </ul> -->
             </div>
         </div>
     </div>
@@ -160,7 +596,29 @@
         </div>
         <!-- </div> -->
     </div>
-    <script src="./node_modules/swiper/"></script>
+    <script src="node_modules\axios\dist\axios.min.js"></script>
+    <script src="./node_modules/swiper/swiper-bundle.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/request.js"></script>
+    <script>
+        var swiper1 = new Swiper('#swiper1', {
+            navigation: {
+                nextEl: ".swiper1-button-next",
+                prevEl: ".swiper1-button-prev",
+            },
+            speed: 1500
+        });
+    </script>
+    <script>
+        var swiper2 = new Swiper("#swiper2", {
+            navigation: {
+                nextEl: ".swiper2-button-next",
+                prevEl: ".swiper2-button-prev",
+            },
+            speed: 1500
+        });
+    </script>
+
 </body>
 
 </html>
