@@ -337,3 +337,40 @@ body {
     color: #ddb1a5;
     font-size: 30px !important;
 }
+
+.footer {
+    /* display: flex; */
+    background-color: #3a4570;
+    margin-top: 670px;
+    height: 270px;
+    /* justify-content: center; */
+    padding-top: 50px;
+    text-align: center;
+    /* flex-wrap: wrap; */
+}
+
+
+.links {
+    margin-top: 30px;
+    /* margin-bottom: 30px; */
+    font-size: 15px;
+}
+
+
+.links p a {
+    line-height: 15px;
+    padding: 0 5px;
+}
+
+.links p a:nth-child(n + 2) {
+    border-left: 2px solid white;
+}
+
+.links p {
+    margin-bottom: 30px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+

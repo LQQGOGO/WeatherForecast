@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "qweather-icons": "^1.6.0"
+    "qweather-icons": "^1.6.0",
+    "swiper": "^11.1.5"
   }
 }
