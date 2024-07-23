@@ -1,8 +1,7 @@
-@font-face {
+/* @font-face {
     font-family: "iconfont";
-    /* Project id  */
     src: url('iconfont.ttf?t=1721465392863') format('truetype');
-}
+} */
 
 .iconfont {
     font-family: "iconfont" !important;
@@ -52,7 +51,7 @@ body {
     line-height: 43px;
 }
 
-.nav div {
+.nav>div {
     padding-left: 20px;
 }
 
@@ -66,7 +65,58 @@ body {
 }
 
 .subscript {
-    opacity: 0.8;
+    position: relative;
+}
+
+.added {
+    opacity: 0.6;
+}
+
+.addSubscript:hover {
+    opacity: 1;
+}
+
+.subscriptList {
+    z-index: 1;
+    position: absolute;
+    background-color: white;
+    width: 450px;
+    /* height: 100px; */
+    top: 44px;
+    left: -142px;
+    border-radius: 7px;
+    padding: 5px 23px 5px;
+}
+
+.subscriptList .subTitle {
+    color: #9f9f9f;
+    font-size: 13px;
+}
+
+.subscriptList .default {
+    color: #9f9f9f;
+    text-align: center;
+    height: 80px;
+}
+
+.subItems span {
+    display: inline-block;
+    color: #555555;
+    font-size: 15px;
+    width: 30%;
+}
+
+.subItems p {
+    position: relative;
+}
+
+.subItems p .sub-del {
+    position: absolute;
+    font-size: 20px;
+}
+
+.search {
+    position: relative;
 }
 
 .search input {
@@ -76,6 +126,53 @@ body {
     border-radius: 15px;
     color: #dae2fd;
     background-color: #8498f7;
+}
+
+.citys {
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    width: 300px;
+    /* height: 400px; */
+    border-radius: 5px;
+    padding: 15px 10px 10px 25px;
+}
+
+.citys p {
+    color: #9f9f9f;
+    font-size: 13px;
+    line-height: 13px;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.citys span {
+    display: inline-block;
+    color: #555555;
+    font-size: 15px;
+    width: 61px;
+    text-align: center;
+    border-radius: 5px;
+    /* height: 15px; */
+}
+
+.citys span:hover {
+    background-color: #f3f3f3;
+}
+
+.historyCitys {
+    position: relative;
+    margin: 10px 0 10px 0;
+}
+
+.clear {
+    position: absolute;
+    top: -3px;
+    left: 204px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    width: 50px;
+    height: 19px;
 }
 
 .current_weather {
@@ -103,8 +200,9 @@ body {
 .airQuality {
     position: relative;
     display: inline-block;
-    width: 70px;
+    /* width: 70px; */
     height: 24px;
+    padding: 0 5px 0;
     margin-left: 20px;
     text-align: center;
     border-radius: 12px;

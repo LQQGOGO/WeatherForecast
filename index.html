@@ -30,10 +30,51 @@
                     <p>&nbsp;陕西省&nbsp;西安市</p>
                 </div>
                 <div class="subscript">
-                    [添加关注]
+                    <div class="addSubscript added">[添加关注]</div>
+                    <div class="subscriptList hide">
+                        <p class="subTitle">关注的城市</p>
+                        <div class="default hide">
+                            点击“添加关注”添加城市呦~
+                        </div>
+                        <div class="subItems">
+                            <p data-city="西安">
+                                <span>西安市</span>
+                                <span><img src="./node_modules/qweather-icons/icons/101.svg" alt="">小雨</span>
+                                <span>26°/26°</span>
+                                <span class="font iconfont sub-del">&#xe61e;</span>
+                            </p>
+                            <p data-city="西安">
+                                <span>西安市</span>
+                                <span><img src="./node_modules/qweather-icons/icons/101.svg" alt="">小雨</span>
+                                <span>26°/26°</span>
+                                <span class="font iconfont sub-del">&#xe61e;</span>
+                            </p>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="search">
                     <input type="search" placeholder="搜索市，区，县等">
+                    <div class="citys hide">
+                        <p>当前定位</p>
+                        <div class="currentCity">
+                            <span class="icon iconfont">西安</span>
+                        </div>
+
+                        <div class="historyCitys hide">
+                            <p>历史记录</p>
+                            <button class="clear">清除</button>
+                                <span>西安</span>
+                                <span>西安</span>
+                                <span>西安</span>
+                                <span>西安</span>
+                        </div>
+                        
+                        <div class="hotCitys">
+                            <p>热门城市</p>
+                            <span>北京</span><span>上海</span><span>广州</span><span>深圳</span><span>天津</span><span>西安</span><span>武汉</span><span>成都</span><span>石家庄</span><span>郑州</span><span>哈尔滨</span><span>太原</span><span>乌鲁木齐</span><span>济南</span><span>福州</span><span>日喀什</span><span>厦门</span><span>青岛</span><span>扬州</span><span>合肥</span><span>重庆</span><span>南昌</span><span>唐山</span><span>杭州</span><span>邢台</span><span>沈阳</span><span>邯郸</span><span>昆明</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,16 +97,26 @@
                             <p>15</p>
                             <p class="airKinds">PM2.5</p>
                         </li>
-                        <li><p>15</p>
-                            <p class="airKinds">PM10</p></li>
-                        <li><p>15</p>
-                            <p class="airKinds">SO2</p></li>
-                        <li><p>15</p>
-                            <p class="airKinds">NO2</p></li>
-                        <li><p>15</p>
-                            <p class="airKinds">O3</p></li>
-                        <li><p>15</p>
-                            <p class="airKinds">CO</p></li>
+                        <li>
+                            <p>15</p>
+                            <p class="airKinds">PM10</p>
+                        </li>
+                        <li>
+                            <p>15</p>
+                            <p class="airKinds">SO2</p>
+                        </li>
+                        <li>
+                            <p>15</p>
+                            <p class="airKinds">NO2</p>
+                        </li>
+                        <li>
+                            <p>15</p>
+                            <p class="airKinds">O3</p>
+                        </li>
+                        <li>
+                            <p>15</p>
+                            <p class="airKinds">CO</p>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -94,7 +145,7 @@
             <!-- 小时预报的swiper的框架  -->
             <div class="hour_container">
                 <div class="swiper mySwiper" id="swiper1">
-                    <div class="swiper-wrapper">
+                    <div class="swiper-wrapper hour-swiper-wrapper">
                         <div class="swiper-slide">
                             <ul>
                                 <li>

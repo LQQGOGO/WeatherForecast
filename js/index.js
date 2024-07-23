@@ -1,7 +1,15 @@
 // import axios from 'axios';
 // const axios = require('axios');
 //为swiper插件按钮绑定点击事件
-document.querySelector('.swiper1-prev').addEventListener('click',() => {
+let easyWeather = {
+    tianqi: '晴',
+    shi: '西安',
+    tupian: '104',
+    gaowen: 30,
+    diwen: 20
+};
+
+document.querySelector('.swiper1-prev').addEventListener('click', () => {
     document.querySelector('.swiper1-button-prev').click()
 })
 
@@ -17,7 +25,84 @@ document.querySelector('.swiper2-next').addEventListener('click', () => {
     document.querySelector('.swiper2-button-next').click()
 })
 
-//获取城市天气
+// 经过显示关注列表
+document.querySelector('.position').addEventListener('mouseenter', () => {
+    document.querySelector('.subscriptList').classList.remove('hide')
+})
+// 离开关闭关注列表
+// document.querySelector('.position').addEventListener('mouseleave', (event) => {
+//     // 检查鼠标事件的相关元素是否是 .subscriptList 或其子元素
+//     const isSubscriptList = event.relatedTarget === document.querySelector('.subscriptList') || document.querySelector('.subscriptList').contains(event.relatedTarget);
+//     if (!isSubscriptList) {
+//         // 如果鼠标离开了 .position 并且没有悬停在 .subscriptList 上，则隐藏 .subscriptList
+//         document.querySelector('.subscriptList').classList.add('hide');
+//     }
+// })
+
+document.querySelector('.subscriptList').addEventListener('mouseleave', () => {
+    document.querySelector('.subscriptList').classList.add('hide')
+})
+
+let searchInput = document.querySelector('.search input[type="search"]');
+let cityList = document.querySelector('.citys');
+
+// ------------------为搜索框添加获得焦点事件，显示城市列表----------------------------
+searchInput.addEventListener('focus', () => {
+    cityList.classList.remove('hide');
+});
+
+//为搜索框添加失去焦点事件，隐藏城市列表
+// cityList.addEventListener('blur', () => {
+//     cityList.classList.add('hide');
+// });
+
+// -------------------------------保存搜索词到LocalStorage------------------------
+function saveSearchTerm(term) {
+    // 从LocalStorage获取搜索历史，如果不存在则初始化为空数组
+    let searchHistory = localStorage.getItem('searchHistory')
+        ? JSON.parse(localStorage.getItem('searchHistory'))
+        : [];
+    searchHistory = searchHistory.filter(item => item !== term);
+    searchHistory.unshift(term);
+    const maxHistoryLength = 4;
+    searchHistory = searchHistory.slice(0, maxHistoryLength);
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+}
+
+// 从LocalStorage获取搜索历史
+function getSearchHistory() {
+    return localStorage.getItem('searchHistory') ? JSON.parse(localStorage.getItem('searchHistory')) : [];
+}
+
+//--------------------------为城市列表添加点击事件-------------------------------
+cityList.addEventListener('click', (e) => {
+    // console.log(e);
+    if (e.target.tagName === 'SPAN') {
+        // console.log(e.target.textContent);
+        getWeather(e.target.textContent)
+        saveSearchTerm(e.target.textContent)
+        const history = getSearchHistory()
+        if (history) {
+            // console.log(history);
+            const historyStr = history.map(element => {
+                return `<span>${element}</span>`
+            }).join('')
+            // console.log(historyStr);
+            document.querySelector('.historyCitys').innerHTML = `<p>历史记录</p>
+                            <button class="clear">清除</button>` + historyStr
+            document.querySelector('.historyCitys').classList.remove('hide')
+        }
+        cityList.classList.add('hide');
+    } else if (e.target.classList.contains('clear')) {
+        // console.log(11);
+        document.querySelector('.historyCitys').classList.add('hide')
+        localStorage.removeItem('searchHistory')
+    }
+})
+
+//------------------------------------获取城市天气-------------------------------
+
+
 async function getWeather(location) {
     // 获得地区id
     const response = await axios({
@@ -27,19 +112,27 @@ async function getWeather(location) {
             key: 'f5acfe55561e4433b5a99c7de7e51a75'
         }
     })
-    console.log(response.data.location[0].id);
+    // console.log(response.data.location[0].id);
+    // console.log(response.data.location[0].adm2);
+    //得到市区信息
+    easyWeather.shi = response.data.location[0].adm2
+
+
     // 获得天气信息
     const locationId = response.data.location[0].id
-    
+
     const weatherObj = await axios({
         url: 'https://devapi.qweather.com/v7/weather/now',
-            params: {
-                location: locationId,
-                key: 'f5acfe55561e4433b5a99c7de7e51a75'
-            }
+        params: {
+            location: locationId,
+            key: 'f5acfe55561e4433b5a99c7de7e51a75'
+        }
     })
-    console.log(weatherObj);
-    
+    // console.log(weatherObj);
+    //获得当地文字天气
+    easyWeather.tianqi = weatherObj.data.now.text
+    easyWeather.tupian = weatherObj.data.now.icon
+    // console.log(tianqi);
     // 生活建议
     const dailyObj = await axios({
         url: 'https://devapi.qweather.com/v7/indices/1d',
@@ -49,7 +142,7 @@ async function getWeather(location) {
             type: 0
         }
     })
-    console.log(dailyObj);
+    // console.log(dailyObj);
     // 获得空气信息
     const airObj = await axios({
         url: 'https://devapi.qweather.com//v7/air/now',
@@ -58,8 +151,319 @@ async function getWeather(location) {
             key: 'f5acfe55561e4433b5a99c7de7e51a75'
         }
     })
-    console.log(airObj);
+    // console.log(airObj);
+
+    //获得逐小时预报
+    const hourObj = await axios({
+        url: 'https://devapi.qweather.com/v7/weather/24h',
+        params: {
+            location: locationId,
+            key: 'f5acfe55561e4433b5a99c7de7e51a75'
+        }
+    })
+    // console.log(hourObj);
+    // console.log(hourObj.data.hourly[0].fxTime);
+
+
+    //渲染逐小时预报
+    const hourStr = `<div class="swiper-slide">
+                            <ul>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[0].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[0].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[0].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[1].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[1].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[1].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[2].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[2].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[2].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[3].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[3].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[3].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[4].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[4].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[4].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[5].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[5].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[5].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[6].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[5].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[5].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[7].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[7].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[7].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[8].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[8].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[8].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[9].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[9].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[9].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[10].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[10].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[10].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[11].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[11].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[11].temp}°</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="swiper-slide">
+                            <ul>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[12].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[12].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[12].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[13].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[13].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[13].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[14].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[14].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[14].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[15].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[15].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[15].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[16].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[16].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[16].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[17].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[17].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[17].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[18].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[18].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[18].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[19].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[19].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[19].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[20].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[20].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[20].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[21].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[21].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[21].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[22].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[22].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[22].temp}°</p>
+                                </li>
+                                <li>
+                                    <p style="color: #8a9baf; font-size: 14px;">${hourObj.data.hourly[23].fxTime.match(/T(\d{2}:\d{2})/)[1]}</p>
+                                    <img src="./node_modules/qweather-icons/icons/${hourObj.data.hourly[23].icon}.svg" alt=""
+                                        style="width: 30px;height: 30px;margin: 10px 0 10px 18px;">
+                                    <p style="font-size: 17px;">${hourObj.data.hourly[23].temp}°</p>
+                                </li>
+                            </ul>
+                        </div>`
+    document.querySelector('.hour-swiper-wrapper').innerHTML = hourStr
+
+
+    //渲染七日天气预报
+    const dayObj = await axios({
+        url: 'https://devapi.qweather.com/v7/weather/7d',
+        params: {
+            location: locationId,
+            key: 'f5acfe55561e4433b5a99c7de7e51a75'
+        }
+    })
+    // console.log(dayObj);
+    easyWeather.gaowen = dayObj.data.daily[0].tempMax
+    easyWeather.diwen = dayObj.data.daily[0].tempMin
+    const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const date1 = new Date(dayObj.data.daily[3].fxDate);//days[date1.getDay()]
+    const date2 = new Date(dayObj.data.daily[4].fxDate);//days[date2.getDay()]
+    const date3 = new Date(dayObj.data.daily[5].fxDate);//days[date3.getDay()]
+    const date4 = new Date(dayObj.data.daily[6].fxDate);//days[date4.getDay()]
+    // console.log(days[date1.getDay()]);
+
+    const dayStr = `<li class="firstDay">
+                            <p class="day">昨天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>${dayObj.data.daily[0].textDay}</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[1].iconDay}.svg" alt="">
+                                <p class="day-temperature">${dayObj.data.daily[2].tempMax}°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">${dayObj.data.daily[3].tempMin}°</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[4].iconNight}.svg" alt="">
+                                <p>${dayObj.data.daily[5].textNight}</p>
+                            </div>
+                            <p class="wind">微风${dayObj.data.daily[6].windScaleNight}级</p>
+                        </li>
+                        <li class="secondDay">
+                            <p class="day">今天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>${dayObj.data.daily[0].textDay}</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[0].iconDay}.svg" alt="">
+                                <p class="day-temperature">${dayObj.data.daily[0].tempMax}°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">${dayObj.data.daily[0].tempMin}°</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[0].iconNight}.svg" alt="">
+                                <p>${dayObj.data.daily[0].textNight}</p>
+                            </div>
+                            <p class="wind">微风${dayObj.data.daily[0].windScaleNight}级</p>
+                        </li>
+                        <li>
+                            <p class="day">明天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>${dayObj.data.daily[1].textDay}</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[1].iconDay}.svg" alt="">
+                                <p class="day-temperature">${dayObj.data.daily[1].tempMax}°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">${dayObj.data.daily[1].tempMin}°</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[1].iconNight}.svg" alt="">
+                                <p>${dayObj.data.daily[1].textNight}</p>
+                            </div>
+                            <p class="wind">微风${dayObj.data.daily[1].windScaleNight}级</p>
+                        </li>
+                        <li>
+                            <p class="day">后天</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>${dayObj.data.daily[2].textDay}</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[2].iconDay}.svg" alt="">
+                                <p class="day-temperature">${dayObj.data.daily[2].tempMax}°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">${dayObj.data.daily[2].tempMin}°</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[2].iconNight}.svg" alt="">
+                                <p>${dayObj.data.daily[2].textNight}</p>
+                            </div>
+                            <p class="wind">微风${dayObj.data.daily[2].windScaleNight}级</p>
+                        </li>
+                        <li>
+                            <p class="day">${days[date1.getDay()]}</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>${dayObj.data.daily[3].textDay}</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[3].iconDay}.svg" alt="">
+                                <p class="day-temperature">${dayObj.data.daily[3].tempMax}°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">${dayObj.data.daily[3].tempMin}°</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[3].iconNight}.svg" alt="">
+                                <p>${dayObj.data.daily[3].textNight}</p>
+                            </div>
+                            <p class="wind">微风${dayObj.data.daily[3].windScaleNight}级</p>
+                        </li>
+                        <li>
+                            <p class="day">${days[date2.getDay()]}</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>${dayObj.data.daily[4].textDay}</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[4].iconDay}.svg" alt="">
+                                <p class="day-temperature">${dayObj.data.daily[4].tempMax}°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">${dayObj.data.daily[4].tempMin}°</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[4].iconNight}.svg" alt="">
+                                <p>${dayObj.data.daily[4].textNight}</p>
+                            </div>
+                            <p class="wind">微风${dayObj.data.daily[4].windScaleNight}级</p>
+                        </li>
+                        <li>
+                            <p class="day">${days[date3.getDay()]}</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>${dayObj.data.daily[5].textDay}</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[5].iconDay}.svg" alt="">
+                                <p class="day-temperature">${dayObj.data.daily[5].tempMax}°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">${dayObj.data.daily[5].tempMin}°</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[5].iconNight}.svg" alt="">
+                                <p>${dayObj.data.daily[5].textNight}</p>
+                            </div>
+                            <p class="wind">微风${dayObj.data.daily[5].windScaleNight}级</p>
+                        </li>
+                        <li>
+                            <p class="day">${days[date4.getDay()]}</p>
+                            <p class="date">07月21日</p>
+                            <div class="day-time">
+                                <p>${dayObj.data.daily[6].textDay}</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[6].iconDay}.svg" alt="">
+                                <p class="day-temperature">${dayObj.data.daily[6].tempMax}°</p>
+                            </div>
+                            <div class="night-time">
+                                <p class="night-temperature">${dayObj.data.daily[6].tempMin}°</p>
+                                <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[6].iconNight}.svg" alt="">
+                                <p>${dayObj.data.daily[6].textNight}</p>
+                            </div>
+                            <p class="wind">微风${dayObj.data.daily[6].windScaleNight}级</p>
+                        </li>`
+    document.querySelector('.forecast_container ul').innerHTML = dayStr
+
     // 渲染当地天气
+    const provinceStr = `<p>&nbsp;${response.data.location[0].adm1}&nbsp;${response.data.location[0].adm2}</p>`
+    document.querySelector('.position').innerHTML = provinceStr
 
     const weatherStr = `<p>中央气象台${weatherObj.data.updateTime.match(/T(\d{2}:\d{2})/)[1]}发布</p>
             <div class="temperature">${weatherObj.data.now.temp}°</div>
@@ -88,7 +492,7 @@ async function getWeather(location) {
                 </div>
             </div>
             <div class="items">
-                <div class="wind">${weatherObj.data.now.windDir}&nbsp;${weatherObj.data.now.windScale}级</div>
+                <div class="wind">${weatherObj.data.now.windDir}&nbsp;${dayObj.data.daily[0].windScaleDay}级</div>
                 <div class="humidity">湿度&nbsp;${weatherObj.data.now.humidity}%</div>
                 <div class="airPressure">气压&nbsp;${weatherObj.data.now.pressure}hPa</div>
                 <div class="trafficInformation">不限行</div>
@@ -97,7 +501,7 @@ async function getWeather(location) {
                 <li>现在的温度比较舒适~</li>
             </ul>
             <img src="./node_modules/qweather-icons/icons/${weatherObj.data.now.icon}.svg" alt="" class="weather_img">`
-            document.querySelector('.current_weather').innerHTML = weatherStr
+    document.querySelector('.current_weather').innerHTML = weatherStr
 
 
     //渲染生活指数
@@ -222,5 +626,85 @@ async function getWeather(location) {
 
 
 }
-
 getWeather('西安')
+
+//-------------------添加关注制作----------------------------------------------------
+document.querySelector('.added').addEventListener('load',(e) => {
+    e.target.classList.add('addSubscript')
+    e.target.innerHTML = '[添加关注]'
+})
+
+document.querySelector('.addSubscript').addEventListener('click', (e) => {
+    e.target.classList.remove('addSubscript')
+    e.target.innerHTML = '[已关注]'
+    
+    // console.log(easyWeather.tianqi);
+    // console.log(easyWeather.shi);
+    // console.log(easyWeather.tupian);
+    // console.log(easyWeather.gaowen);
+    // console.log(easyWeather.diwen);
+    saveSubTerm(easyWeather)
+    loadSubList()
+})
+
+function saveSubTerm(term) {
+    let easyWeather = localStorage.getItem('easyWeather') ? JSON.parse(localStorage.getItem('easyWeather')) : []
+    easyWeather = easyWeather.filter(item => item.shi !== term.shi);
+    easyWeather.unshift(term);
+    const maxLength = 5
+    easyWeather = easyWeather.slice(0, maxLength)
+    localStorage.setItem('easyWeather', JSON.stringify(easyWeather))
+}
+
+function getSubHistory() {
+    return localStorage.getItem('easyWeather') ? JSON.parse(localStorage.getItem('easyWeather')) : [];
+}
+
+// 渲染关注制作
+function loadSubList() {
+    const weathers = getSubHistory()
+    // console.log(weathers);
+    if(weathers[0]) {
+        document.querySelector('.default').classList.add('hide')
+        const wStr =  weathers.map(item => {
+            return `<p data-city="${item.shi}">
+                                <span>${item.shi}</span>
+                                <span><img src="./node_modules/qweather-icons/icons/${item.tupian}.svg" alt="">小雨</span>
+                                <span>${item.diwen}°/${item.gaowen}°</span>
+                                <span class="font iconfont sub-del">&#xe61e;</span>
+                            </p>`
+        }).join('')
+        // console.log(wStr);
+        document.querySelector('.subItems').innerHTML = wStr
+    } else {
+        document.querySelector('.subItems').innerHTML = ''
+        document.querySelector('.default').classList.remove('hide')
+    }
+}
+
+loadSubList()
+
+//删除关注制作
+
+document.querySelectorAll('.sub-del').forEach(item => {
+    item.addEventListener('click', (e) => {
+        const city = e.target.parentNode.getAttribute('data-city');
+        // console.log(city);
+        delSub(city);
+        // console.log(11);
+        loadSubList();
+    });
+});
+
+function delSub(area) {
+    let easyWeather = localStorage.getItem('easyWeather') ? JSON.parse(localStorage.getItem('easyWeather')) : []
+    // console.log('Before:', easyWeather); // 打印删除前的数据
+    easyWeather = easyWeather.filter(item => item.shi !== area);
+    
+    // if (easyWeather[0].shi === area.shi) {
+    //     localStorage.removeItem('easyWeather')
+    //     return
+    // }
+    // console.log('After:', easyWeather); // 打印删除后的数据
+    localStorage.setItem('easyWeather', JSON.stringify(easyWeather))
+}
