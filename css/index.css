@@ -108,6 +108,11 @@ body {
 
 .subItems p {
     position: relative;
+    border-radius: 7px;
+}
+
+.subItems p:hover {
+    background-color: #f4f4f4;
 }
 
 .subItems p .sub-del {
@@ -126,6 +131,34 @@ body {
     border-radius: 15px;
     color: #dae2fd;
     background-color: #8498f7;
+}
+
+.recommendCitys {
+    position: absolute;
+    z-index: 1;
+    width: 300px;
+    padding: 10px;
+    /* height: 100px; */
+    background-color: #fff;
+    border-radius: 5px;
+
+}
+
+.recommendCitys .notFind {
+    color: #888888;
+    text-align: center;
+    font-size: 13px;
+}
+
+.r-citys {
+    overflow-y: scroll;
+    height: 200px;
+}
+
+.r-citys li {
+    color: #555555;
+    padding-left: 10px;
+    font-size: 14px;
 }
 
 .citys {

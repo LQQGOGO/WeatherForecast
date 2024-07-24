@@ -6,7 +6,8 @@ let easyWeather = {
     shi: '西安',
     tupian: '104',
     gaowen: 30,
-    diwen: 20
+    diwen: 20,
+    // id: "101010100",
 };
 
 // 制作折线图函数
@@ -102,6 +103,37 @@ let searchInput = document.querySelector('.search input[type="search"]');
 let cityList = document.querySelector('.citys');
 
 //-------------------为搜索框添加改变事件，获得里面的内容------------------------------
+searchInput.addEventListener('keyup', async (e) => {
+    cityList.classList.add('hide')
+    document.querySelector('.recommendCitys').classList.remove('hide')
+    if (e.target.value.length > 0 && e.key === 'Enter') {
+        // console.log(e.target.value);
+        try {
+            const area = await axios({
+                url: 'https://geoapi.qweather.com/v2/city/lookup',
+                params: {
+                    location: e.target.value,
+                    key: 'f5acfe55561e4433b5a99c7de7e51a75',
+                    // range: cn
+                }
+            })
+            const aStr = area.data.location.map((item) => {
+                return `<li class="${item.id}">${item.adm2}，${item.adm1}，${item.name}</li>`
+            }).join('')
+            // console.log(aStr);
+            const rCitys = document.querySelector('.r-citys')
+            rCitys.innerHTML = aStr
+            rCitys.classList.remove('hide')
+            document.querySelector('.notFind').classList.add('hide')
+        } catch {
+            document.querySelector('.notFind').classList.remove('hide')
+            document.querySelector('.r-citys').classList.add('hide')
+        }
+        // console.log(area);
+
+    }
+})
+
 
 // ------------------为搜索框添加获得焦点事件，显示城市列表----------------------------
 searchInput.addEventListener('focus', () => {
@@ -112,8 +144,19 @@ searchInput.addEventListener('focus', () => {
 searchInput.addEventListener('blur', () => {
     setTimeout(() => {
         cityList.classList.add('hide');
+        document.querySelector('.recommendCitys').classList.add('hide')
+        const rc = document.querySelector('.r-citys')
+        rc.innerHTML = ''
+        rc.classList.add('hide')
     }, 500)
 });
+
+//----------------------为搜索城市添加点击事件，查询天气-------------------------
+document.querySelector('.recommendCitys').addEventListener('click', (e) => {
+    // console.log(e.target.getAttribute('class'));
+    const area = e.target.getAttribute('class')
+    getWeather(area)
+})
 
 // -------------------------------保存搜索词到LocalStorage------------------------
 function saveSearchTerm(term) {
@@ -175,7 +218,8 @@ async function getWeather(location) {
     // console.log(response.data.location[0].adm2);
     //得到市区信息
     easyWeather.shi = response.data.location[0].adm2
-
+    // easyWeather.id = response.data.location[0].id
+    // console.log(easyWeather.id);
 
     // 获得天气信息
     const locationId = response.data.location[0].id
@@ -396,7 +440,29 @@ async function getWeather(location) {
     const date2 = new Date(dayObj.data.daily[4].fxDate);//days[date2.getDay()]
     const date3 = new Date(dayObj.data.daily[5].fxDate);//days[date3.getDay()]
     const date4 = new Date(dayObj.data.daily[6].fxDate);//days[date4.getDay()]
-    // console.log(days[date1.getDay()]);
+
+    //---------------------获得昨天-----------------------------------------
+    let d = new Date(dayObj.data.daily[0].fxDate);
+    d.setDate(d.getDate() - 1);
+
+    let y = d.getFullYear();
+    let m = (d.getMonth() + 1).toString().padStart(2, '0');
+    let da = d.getDate().toString().padStart(2, '0');
+
+    let result = `${m}月${da}日`;
+    // console.log(result);
+
+    //-------------获得月份日期----------------------------------------------
+    const mouthDate = dayObj.data.daily.map(item => {
+        const date = new Date(item.fxDate);
+        let month = (date.getMonth() + 1).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
+        let result = `${month}月${day}日`;
+        return result
+    })
+    mouthDate.unshift(result)
+    // console.log(mouthDate);
+
 
     //制作折线图
     // let lineMax = dayObj.data.daily.map(item => {
@@ -434,7 +500,7 @@ async function getWeather(location) {
 
     const dayStr = `<li class="firstDay">
                             <p class="day">昨天</p>
-                            <p class="date">07月21日</p>
+                            <p class="date">${mouthDate[0]}</p>
                             <div class="day-time">
                                 <p>${dayObj.data.daily[0].textDay}</p>
                                 <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[1].iconDay}.svg" alt="">
@@ -449,7 +515,7 @@ async function getWeather(location) {
                         </li>
                         <li class="secondDay">
                             <p class="day">今天</p>
-                            <p class="date">07月21日</p>
+                            <p class="date">${mouthDate[1]}</p>
                             <div class="day-time">
                                 <p>${dayObj.data.daily[0].textDay}</p>
                                 <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[0].iconDay}.svg" alt="">
@@ -464,7 +530,7 @@ async function getWeather(location) {
                         </li>
                         <li>
                             <p class="day">明天</p>
-                            <p class="date">07月21日</p>
+                            <p class="date">${mouthDate[2]}</p>
                             <div class="day-time">
                                 <p>${dayObj.data.daily[1].textDay}</p>
                                 <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[1].iconDay}.svg" alt="">
@@ -479,7 +545,7 @@ async function getWeather(location) {
                         </li>
                         <li>
                             <p class="day">后天</p>
-                            <p class="date">07月21日</p>
+                            <p class="date">${mouthDate[3]}</p>
                             <div class="day-time">
                                 <p>${dayObj.data.daily[2].textDay}</p>
                                 <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[2].iconDay}.svg" alt="">
@@ -494,7 +560,7 @@ async function getWeather(location) {
                         </li>
                         <li>
                             <p class="day">${days[date1.getDay()]}</p>
-                            <p class="date">07月21日</p>
+                            <p class="date">${mouthDate[4]}</p>
                             <div class="day-time">
                                 <p>${dayObj.data.daily[3].textDay}</p>
                                 <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[3].iconDay}.svg" alt="">
@@ -509,7 +575,7 @@ async function getWeather(location) {
                         </li>
                         <li>
                             <p class="day">${days[date2.getDay()]}</p>
-                            <p class="date">07月21日</p>
+                            <p class="date">${mouthDate[5]}</p>
                             <div class="day-time">
                                 <p>${dayObj.data.daily[4].textDay}</p>
                                 <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[4].iconDay}.svg" alt="">
@@ -524,7 +590,7 @@ async function getWeather(location) {
                         </li>
                         <li>
                             <p class="day">${days[date3.getDay()]}</p>
-                            <p class="date">07月21日</p>
+                            <p class="date">${mouthDate[6]}</p>
                             <div class="day-time">
                                 <p>${dayObj.data.daily[5].textDay}</p>
                                 <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[5].iconDay}.svg" alt="">
@@ -539,7 +605,7 @@ async function getWeather(location) {
                         </li>
                         <li>
                             <p class="day">${days[date4.getDay()]}</p>
-                            <p class="date">07月21日</p>
+                            <p class="date">${mouthDate[7]}</p>
                             <div class="day-time">
                                 <p>${dayObj.data.daily[6].textDay}</p>
                                 <img src="./node_modules/qweather-icons/icons/${dayObj.data.daily[6].iconDay}.svg" alt="">
@@ -795,7 +861,6 @@ function loadSubList() {
     }
     addDel()
 }
-
 loadSubList()
 
 //删除关注制作
@@ -820,7 +885,6 @@ function addDel() {
 //         loadSubList();
 //     });
 // });
-
 function delSub(area) {
     let easyWeather = localStorage.getItem('easyWeather') ? JSON.parse(localStorage.getItem('easyWeather')) : []
     // console.log('Before:', easyWeather); // 打印删除前的数据
@@ -834,3 +898,18 @@ function delSub(area) {
     localStorage.setItem('easyWeather', JSON.stringify(easyWeather))
 }
 
+//------------------------点击关注跳转----------------------------------
+document.querySelector('.subItems').addEventListener('click', (e) => {
+    if (e.target.tagName === 'SPAN' && !e.target.classList.contains('sub-del')) {
+        // console.log(e.target.parentNode.getAttribute('data-city'));
+        getWeather(e.target.parentNode.getAttribute('data-city'))
+    } else if (e.target.classList.contains('sub-del')) {
+        // console.log(11);
+        const city = e.target.parentNode.getAttribute('data-city');
+        // console.log(city);
+        delSub(city);
+        // console.log(11);
+        loadSubList();
+        addSub(city)
+    }
+})
