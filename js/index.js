@@ -9,6 +9,61 @@ let easyWeather = {
     diwen: 20
 };
 
+// 制作折线图函数
+function lineChart(id, nums, color) {
+    // let canvas = document.getElementById('myCanvas');
+    let canvas = document.getElementById(id);
+    // console.log(canvas);
+    let ctx = canvas.getContext('2d');
+    canvas.width = canvas.width
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // let dataPoints = [
+    //     { x: 0, y: 100 },
+    //     { x: 1, y: 20 },
+    //     { x: 10, y: 10 },
+    //     { x: 20, y: 30 },
+    //     { x: 30, y: 10 },
+    //     { x: 40, y: 40 },
+    //     { x: 50, y: 50 },
+    //     { x: 60, y: 20 },
+    //     { x: 70, y: 0 }
+    // ];
+    let dataPoints = nums
+    // console.log(dataPoints);
+    let minX = Math.min(...dataPoints.map(point => point.x));
+    let maxX = Math.max(...dataPoints.map(point => point.x));
+    let minY = Math.min(...dataPoints.map(point => point.y));
+    let maxY = Math.max(...dataPoints.map(point => point.y));
+
+    let xScale = (canvas.width - 20) / (maxX - minX);
+    let yScale = (canvas.height - 20) / (maxY - minY);
+    for (let point of dataPoints) {
+        let x = 10 + (point.x - minX) * xScale;
+        let y = canvas.height - 10 - (point.y - minY) * yScale;
+        if (point.y === maxY) {
+            if (x - 5 >= 0 && y - 10 >= 0) {
+                ctx.fillText(point.y + '°', x - 5, y - 10);
+            } else {
+                if (x - 5 < 0) x = 5;
+                if (y - 10 < 0) y = 10;
+                ctx.fillText(point.y + '°', x - 5, y - 10);
+            }
+        } else {
+            if (dataPoints.indexOf(point) === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+            ctx.fillText(point.y + '°', x - 5, y - 10);
+        }
+    }
+    ctx.strokeStyle = color;
+    // console.log(ctx.strokeStyle);
+    ctx.stroke();
+}
+
+
+
 document.querySelector('.swiper1-prev').addEventListener('click', () => {
     document.querySelector('.swiper1-button-prev').click()
 })
@@ -46,15 +101,19 @@ document.querySelector('.subscriptList').addEventListener('mouseleave', () => {
 let searchInput = document.querySelector('.search input[type="search"]');
 let cityList = document.querySelector('.citys');
 
+//-------------------为搜索框添加改变事件，获得里面的内容------------------------------
+
 // ------------------为搜索框添加获得焦点事件，显示城市列表----------------------------
 searchInput.addEventListener('focus', () => {
     cityList.classList.remove('hide');
 });
 
-//为搜索框添加失去焦点事件，隐藏城市列表
-// cityList.addEventListener('blur', () => {
-//     cityList.classList.add('hide');
-// });
+//---------------------为搜索框添加失去焦点事件，隐藏城市列表---------------------------
+searchInput.addEventListener('blur', () => {
+    setTimeout(() => {
+        cityList.classList.add('hide');
+    }, 500)
+});
 
 // -------------------------------保存搜索词到LocalStorage------------------------
 function saveSearchTerm(term) {
@@ -338,6 +397,40 @@ async function getWeather(location) {
     const date3 = new Date(dayObj.data.daily[5].fxDate);//days[date3.getDay()]
     const date4 = new Date(dayObj.data.daily[6].fxDate);//days[date4.getDay()]
     // console.log(days[date1.getDay()]);
+
+    //制作折线图
+    // let lineMax = dayObj.data.daily.map(item => {
+    //     let str = `{ x: 0, y: ${item.tempMax} }`
+    //     return JSON.parse(str.replace(/([a-zA-Z]+):/g, '"$1":'));
+    // })
+    let lineMax = [
+        { x: 0, y: 100 },
+        { x: 1, y: dayObj.data.daily[5].tempMax },
+        { x: 10, y: dayObj.data.daily[0].tempMax },
+        { x: 20, y: dayObj.data.daily[1].tempMax },
+        { x: 30, y: dayObj.data.daily[2].tempMax },
+        { x: 40, y: dayObj.data.daily[3].tempMax },
+        { x: 50, y: dayObj.data.daily[4].tempMax },
+        { x: 60, y: dayObj.data.daily[5].tempMax },
+        { x: 70, y: dayObj.data.daily[6].tempMax }
+    ];
+
+    let lineMin = [
+        { x: 0, y: 100 },
+        { x: 1, y: dayObj.data.daily[5].tempMin },
+        { x: 10, y: dayObj.data.daily[0].tempMin },
+        { x: 20, y: dayObj.data.daily[1].tempMin },
+        { x: 30, y: dayObj.data.daily[2].tempMin },
+        { x: 40, y: dayObj.data.daily[3].tempMin },
+        { x: 50, y: dayObj.data.daily[4].tempMin },
+        { x: 60, y: dayObj.data.daily[5].tempMin },
+        { x: 70, y: dayObj.data.daily[6].tempMin }
+    ];
+
+    lineChart("high-Canvas", lineMax, 'orange')
+    lineChart("low-Canvas", lineMin, 'blue')
+
+    // console.log(lineMax);
 
     const dayStr = `<li class="firstDay">
                             <p class="day">昨天</p>
@@ -624,20 +717,40 @@ async function getWeather(location) {
                             </div>`
     document.querySelector('.daily-swiper-wrapper').innerHTML = dailyStr
 
-
+    //--------------------渲染添加关注制作------------------
+    // document.querySelector('.added').addEventListener('load', (e) => {
+    //     e.target.classList.add('addSubscript')
+    //     e.target.innerHTML = '[添加关注]'
+    // })
+    addSub(easyWeather.shi)
 }
 getWeather('西安')
+// ------------------------------------------渲染添加关注制作-------------------------------------------
+function addSub(nowshi) {
+    const add = document.querySelector('.added')
+    // console.log(add);
+    const subStr = getSubHistory()
+    let ex = false
+    for (let item of subStr) {
+        if (item.shi == nowshi) {
+            ex = true
+        }
+    }
+    // console.log(ex);
+    if (!ex) {
+        add.classList.add('addSubscript')
+        add.innerHTML = '[添加关注]'
+    } else {
+        add.classList.remove('addSubscript')
+        add.innerHTML = '[已关注]'
+    }
+}
 
-//-------------------添加关注制作----------------------------------------------------
-document.querySelector('.added').addEventListener('load',(e) => {
-    e.target.classList.add('addSubscript')
-    e.target.innerHTML = '[添加关注]'
-})
 
 document.querySelector('.addSubscript').addEventListener('click', (e) => {
     e.target.classList.remove('addSubscript')
     e.target.innerHTML = '[已关注]'
-    
+
     // console.log(easyWeather.tianqi);
     // console.log(easyWeather.shi);
     // console.log(easyWeather.tupian);
@@ -664,9 +777,9 @@ function getSubHistory() {
 function loadSubList() {
     const weathers = getSubHistory()
     // console.log(weathers);
-    if(weathers[0]) {
+    if (weathers[0]) {
         document.querySelector('.default').classList.add('hide')
-        const wStr =  weathers.map(item => {
+        const wStr = weathers.map(item => {
             return `<p data-city="${item.shi}">
                                 <span>${item.shi}</span>
                                 <span><img src="./node_modules/qweather-icons/icons/${item.tupian}.svg" alt="">小雨</span>
@@ -680,27 +793,39 @@ function loadSubList() {
         document.querySelector('.subItems').innerHTML = ''
         document.querySelector('.default').classList.remove('hide')
     }
+    addDel()
 }
 
 loadSubList()
 
 //删除关注制作
-
-document.querySelectorAll('.sub-del').forEach(item => {
-    item.addEventListener('click', (e) => {
-        const city = e.target.parentNode.getAttribute('data-city');
-        // console.log(city);
-        delSub(city);
-        // console.log(11);
-        loadSubList();
+function addDel() {
+    document.querySelectorAll('.sub-del').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const city = e.target.parentNode.getAttribute('data-city');
+            // console.log(city);
+            delSub(city);
+            // console.log(11);
+            loadSubList();
+            addSub(city)
+        });
     });
-});
+}
+// document.querySelectorAll('.sub-del').forEach(item => {
+//     item.addEventListener('click', (e) => {
+//         const city = e.target.parentNode.getAttribute('data-city');
+//         // console.log(city);
+//         delSub(city);
+//         // console.log(11);
+//         loadSubList();
+//     });
+// });
 
 function delSub(area) {
     let easyWeather = localStorage.getItem('easyWeather') ? JSON.parse(localStorage.getItem('easyWeather')) : []
     // console.log('Before:', easyWeather); // 打印删除前的数据
     easyWeather = easyWeather.filter(item => item.shi !== area);
-    
+
     // if (easyWeather[0].shi === area.shi) {
     //     localStorage.removeItem('easyWeather')
     //     return
@@ -708,3 +833,4 @@ function delSub(area) {
     // console.log('After:', easyWeather); // 打印删除后的数据
     localStorage.setItem('easyWeather', JSON.stringify(easyWeather))
 }
+

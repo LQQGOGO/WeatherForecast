@@ -400,6 +400,7 @@ body {
 }
 
 .weather_forecast {
+    position: relative;
     float: left;
     margin-top: 40px;
     padding-top: 10px;
@@ -409,6 +410,30 @@ body {
     box-shadow: 0 0 10px 1px rgba(223, 210, 210, 0.3);
     border-radius: 10px;
 }
+
+.myCanvas {
+    position: absolute;
+    /* padding: 0 10px 0 10px; */
+    /* padding-left: 27px; */
+    width: 100%;
+    height: 144px;
+    background-color: white;
+    top: 246px;
+    left: 0;
+}
+
+#high-Canvas {
+    position: absolute;
+    top: -420px;
+    left: 32px;
+}
+
+#low-Canvas {
+    position: absolute;
+    top: -376px;
+    left: 35px;
+}
+
 
 .weather_forecast .title span {
     font-size: 18px;
@@ -489,6 +514,11 @@ body {
 }
 
 .forecast_container .firstDay {
+    /* opacity: 0.5; */
+    color: #b4bdbd;
+}
+
+.forecast_container .firstDay img {
     opacity: 0.5;
 }
 
