@@ -102,37 +102,80 @@ document.querySelector('.subscriptList').addEventListener('mouseleave', () => {
 let searchInput = document.querySelector('.search input[type="search"]');
 let cityList = document.querySelector('.citys');
 
-//-------------------为搜索框添加改变事件，获得里面的内容------------------------------
-searchInput.addEventListener('keyup', async (e) => {
-    cityList.classList.add('hide')
-    document.querySelector('.recommendCitys').classList.remove('hide')
-    if (e.target.value.length > 0 && e.key === 'Enter') {
-        // console.log(e.target.value);
-        try {
-            const area = await axios({
-                url: 'https://geoapi.qweather.com/v2/city/lookup',
-                params: {
-                    location: e.target.value,
-                    key: 'f5acfe55561e4433b5a99c7de7e51a75',
-                    // range: cn
-                }
-            })
-            const aStr = area.data.location.map((item) => {
-                return `<li class="${item.id}">${item.adm2}，${item.adm1}，${item.name}</li>`
-            }).join('')
-            // console.log(aStr);
-            const rCitys = document.querySelector('.r-citys')
-            rCitys.innerHTML = aStr
-            rCitys.classList.remove('hide')
-            document.querySelector('.notFind').classList.add('hide')
-        } catch {
-            document.querySelector('.notFind').classList.remove('hide')
-            document.querySelector('.r-citys').classList.add('hide')
-        }
-        // console.log(area);
+//---------------------添加防抖----------------------------------------
+//防抖函数
+function inputThrottle(limit) {
+    let th;
+    return async function () {
+        if (!th) {
+            // console.log(searchInput.value);
+            cityList.classList.add('hide')
+            document.querySelector('.recommendCitys').classList.remove('hide')
+            try {
+                const area = await axios({
+                    url: 'https://geoapi.qweather.com/v2/city/lookup',
+                    params: {
+                        location: searchInput.value,
+                        key: 'f5acfe55561e4433b5a99c7de7e51a75',
+                        // range: cn
+                    }
+                })
+                const aStr = area.data.location.map((item) => {
+                    return `<li class="${item.id}">${item.adm2}，${item.adm1}，${item.name}</li>`
+                }).join('')
+                // console.log(aStr);
+                const rCitys = document.querySelector('.r-citys')
+                rCitys.innerHTML = aStr
+                rCitys.classList.remove('hide')
+                document.querySelector('.notFind').classList.add('hide')
+            } catch {
+                document.querySelector('.notFind').classList.remove('hide')
+                document.querySelector('.r-citys').classList.add('hide')
+            }
 
+
+            th = true;
+            setTimeout(() => th = false, limit);
+        }
     }
-})
+}
+
+
+searchInput.addEventListener('input', inputThrottle(200))
+
+
+
+//-------------------为搜索框添加改变事件，获得里面的内容------------------------------
+// searchInput.addEventListener('keyup', async (e) => {
+//     cityList.classList.add('hide')
+//     document.querySelector('.recommendCitys').classList.remove('hide')
+//     // if (e.target.value.length > 0 && e.key === 'Enter') {
+//     //     // console.log(e.target.value);
+//     //     try {
+//     //         const area = await axios({
+//     //             url: 'https://geoapi.qweather.com/v2/city/lookup',
+//     //             params: {
+//     //                 location: e.target.value,
+//     //                 key: 'f5acfe55561e4433b5a99c7de7e51a75',
+//     //                 // range: cn
+//     //             }
+//     //         })
+//     //         const aStr = area.data.location.map((item) => {
+//     //             return `<li class="${item.id}">${item.adm2}，${item.adm1}，${item.name}</li>`
+//     //         }).join('')
+//     //         // console.log(aStr);
+//     //         const rCitys = document.querySelector('.r-citys')
+//     //         rCitys.innerHTML = aStr
+//     //         rCitys.classList.remove('hide')
+//     //         document.querySelector('.notFind').classList.add('hide')
+//     //     } catch {
+//     //         document.querySelector('.notFind').classList.remove('hide')
+//     //         document.querySelector('.r-citys').classList.add('hide')
+//     //     }
+//     //     // console.log(area);
+
+//     // }
+// })
 
 
 // ------------------为搜索框添加获得焦点事件，显示城市列表----------------------------
